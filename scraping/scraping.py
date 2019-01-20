@@ -14,7 +14,6 @@ import os
 import praw
 import requests
 import requests.auth
-#import PythonMagick
 
 
 def authentication():
@@ -51,9 +50,11 @@ def authentication():
 # Takes a myURL string for use for downloading an image, battle identifier string, and
 # image number for creation of the newly downloaded file
 # Note: image1.jpg will ALWAYS be the original post (for comparison purposes)
-def downloadImages(myURL, battleID, imageNum):
+def downloadImages(myURL, battleID, unused):
 
     gotIt = False
+    imageNum = 1
+    downloadedImageName = 'img' + str(imageNum) + '.jpg'
 
     try:
         req = requests.get(myURL)
@@ -62,8 +63,6 @@ def downloadImages(myURL, battleID, imageNum):
         gotIt = False
 
     if(gotIt):
-
-        downloadedImageName = 'img' + str(imageNum) + '.jpg'
         
         os.chdir("..")
         os.chdir("app/static")
@@ -75,6 +74,14 @@ def downloadImages(myURL, battleID, imageNum):
             os.chdir(battleID)
         else:
             os.chdir(battleID)
+        
+        while os.path.isfile(downloadedImageName):
+            imageNum += 1
+            downloadedImageName = 'img' + str(imageNum) + '.jpg'
+
+            if(imageNum > 1000):
+                print("Overflowing past what is reasonable - something went wrong!")
+                break
 
         f = open(downloadedImageName, 'wb')
         f.write(req.content)
@@ -82,6 +89,7 @@ def downloadImages(myURL, battleID, imageNum):
 
         #resizeImage(downloadedImageName)
 
+        os.chdir("..")
         os.chdir("..")
         
     else:
@@ -120,8 +128,9 @@ def main():
             downloadImages(str, ID[arrayCount], strCount)
             strCount = strCount + 1
 
-    #example:
-    downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
+    # example:
+    # downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
+
 
 def getLinks():
     URL = []
