@@ -48,26 +48,35 @@ def authentication():
 
 # Takes a myURL string for use for downloading an image, battle identifier string, and
 # image number for creation of the newly downloaded file
+# Note: image1.jpg will ALWAYS be the original post (for comparison purposes)
 def downloadImages(myURL, battleID, imageNum):
+
+    gotIt = False
 
     try:
         req = requests.get(myURL)
+        gotIt = True
     except:
-        return "Error getting image!"
+        gotIt = False
 
-    folderName = 'battle' + battleID
-    downloadedImageName = 'image' + str(imageNum) + '.jpg'
-    
-    os.chdir("..")
-    os.chdir("app/static")
+    if(gotIt):
 
-    #if the folder doesn't already exist, create it. Otherwise go into it and add the photo
-    if not os.path.exists('battle' + str(battleNum)):
-        os.mkdir('battle' + str(battleNum))
+        downloadedImageName = 'img' + str(imageNum) + '.jpg'
+        
+        os.chdir("..")
+        os.chdir("app/static")
 
-    f = open(downloadedImageName, 'wb')
-    f.write(req.content)
-    f.close()
+        #if the folder doesn't already exist, create it. Otherwise ?
+        if not os.path.exists(battleID):
+            os.mkdir(battleID)
+            os.chdir(battleID)
+            f = open(downloadedImageName, 'wb')
+            f.write(req.content)
+            f.close()
+        else:
+            print("That folder already exists!")
+    else:
+        print("Error getting the image")
  
 
 def main():
@@ -86,7 +95,8 @@ def main():
     top_comments = []
     URL, top_comments = getLinks()
 
-
+    #example:
+    downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
 
 
 def getLinks():
