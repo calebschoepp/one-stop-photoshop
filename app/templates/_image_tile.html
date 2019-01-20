@@ -1,7 +1,7 @@
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
     {% if post %}
         <a href="{{ url_for('post', folder=post.folder) }}">
-        <img src="{{ url_for('static', filename='{}/img1.jpg'.format(post.folder)) }}" class="img-responsive">
+        <img src="{{ url_for('static', filename='{}/img1.sqr.jpg'.format(post.folder)) }}" class="img-responsive">
     {% endif %}
     </a>
 </div>
