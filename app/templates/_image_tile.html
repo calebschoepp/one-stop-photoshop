@@ -1,3 +1,5 @@
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <img src={{ resized_img_src('original.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
+    <a href="{{ url_for('post') }}">
+    <img src="{{url_for('images.crop', filename='img1.jpg', width=800, height=600, quality=95)}}" class="img-responsive">
+    </a>
 </div>
