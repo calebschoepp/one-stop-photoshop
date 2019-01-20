@@ -1,2 +1,2 @@
-FLASK_APP=gametracker.py
+FLASK_APP=photoshop.py
 FLASK_DEBUG=1
