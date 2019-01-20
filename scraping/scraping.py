@@ -9,17 +9,18 @@
 # Notice that for acquiring a token, requests are made to https://www.reddit.com
 
 
-import config
+import scrapeconfig
 import os
 import praw
 import requests
 import requests.auth
 from PIL import Image
 from resizeimage import resizeimage
-
+from app import app, db
+from app.models import Post
 
 def authentication():
-
+    print('Entering authentication')
     client_auth = requests.auth.HTTPBasicAuth(config.CLIENT_ID, config.CLIENT_SECRET)
     post_data = {"grant_type": "password", "username": config.REDDIT_USERNAME, "password": config.REDDIT_PASSWORD}
     headers = {"User-Agent": "linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)"}
@@ -53,7 +54,7 @@ def authentication():
 # image number for creation of the newly downloaded file
 # Note: image1.jpg will ALWAYS be the original post (for comparison purposes)
 def downloadImages(myURL, battleID):
-
+    print('Entering downloadImages')
     gotIt = False
     imageNum = 1
     downloadedImageName = 'img' + str(imageNum) + '.jpg'
@@ -99,6 +100,11 @@ def downloadImages(myURL, battleID):
 
         os.chdir("..")
         os.chdir("..")
+
+        post = Post(folder=battleID, image_count=imageNum)
+        db.session.add(post)
+        print('Adding post {}'.format(battleID))
+        db.session.commit()
         
     #else:
         #print("Error getting the image")
@@ -111,12 +117,15 @@ def downloadImages(myURL, battleID):
  
 
 def main():
-
+    print('Entering main')
     authentication()
 
     global myReddit
     global PSbattles
 
+if __name__ == "__main__":
+    print('Help')
+    main()
     myReddit = praw.Reddit(client_id = config.CLIENT_ID,
         client_secret = config.CLIENT_SECRET,
         user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
@@ -141,6 +150,7 @@ def main():
 
 
 def getLinks():
+    print('Entering getLinks()')
     URL = []
     top_comments = []
     ID = []
@@ -172,6 +182,7 @@ def getLinks():
 
 
 if __name__ == "__main__":
+    print('Help')
     main()
 
 # WORKING!  Pulls the top hot titles from the learn python subreddit and prints
