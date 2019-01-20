@@ -66,16 +66,17 @@ def downloadImages(myURL, battleID, imageNum):
         os.chdir("..")
         os.chdir("app/static")
 
-        #if the folder doesn't already exist, create it. Otherwise currently do nothing
-        # but return a folder exists error
-        if not os.path.exists(battleID):
-            os.mkdir(battleID)
-            os.chdir(battleID)
-            f = open(downloadedImageName, 'wb')
-            f.write(req.content)
-            f.close()
-        else:
-            print("That folder already exists!")
+        #NOT IMPLEMENTED:  if the folder doesn't already exist, create it. Otherwise 
+        #currently do nothing but return a folder exists error?  dynamic so doesn't reload?
+        #if not os.path.exists(battleID):
+        os.mkdir(battleID)
+        os.chdir(battleID)
+        f = open(downloadedImageName, 'wb')
+        f.write(req.content)
+        f.close()
+
+        resizeImage(downloadedImageName)
+        
     else:
         print("Error getting the image")
 
@@ -110,7 +111,7 @@ def main():
         for str in array:
             downloadImages(str, ID[arrayCount], strCount)
             strCount = strCount + 1
-            
+
     #example:
     #downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
     #print(yolo)
