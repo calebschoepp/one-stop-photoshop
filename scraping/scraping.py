@@ -92,7 +92,9 @@ def main():
 def getLinks():
     URL = []
     top_comments = []
+    ID = []
     for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
+        ID.append(submission.id)
         URL.append(submission.url)
         submission.comments.replace_more(limit=0)
         top_comments.append(list(submission.comments))
