@@ -48,13 +48,20 @@ def authentication():
 
 # Takes a myURL string for use for downloading an image, battle number integer, and
 # image number for creation of the newly downloaded file
+
+#UNFINISHED AND BROKEN  - NEED UNIQUE ID'S INSTEAD OF BATTLENUM
 def downloadImages(myURL, battleNum, imageNum):
 
     req = requests.get(myURL)
-    downloadedImageName = str(battleNum) + '.' + str(imageNum) + '.jpg'
+    folderName = 'battle' + str(battleNum)
+    downloadedImageName = 'image' + str(imageNum) + '.jpg'
     
     os.chdir("..")
     os.chdir("app/static")
+
+    #if the folder doesn't already exist, create it. Otherwise go into it and add the photo
+    if not os.path.exists('battle' + str(battleNum)):
+        os.mkdir('battle' + str(battleNum))
 
     f = open(downloadedImageName, 'wb')
     f.write(req.content)
