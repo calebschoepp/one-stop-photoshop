@@ -14,7 +14,8 @@ import os
 import praw
 import requests
 import requests.auth
-#import PythonMagick
+from PIL import Image
+from resizeimage import resizeimage
 
 
 def authentication():
@@ -51,9 +52,11 @@ def authentication():
 # Takes a myURL string for use for downloading an image, battle identifier string, and
 # image number for creation of the newly downloaded file
 # Note: image1.jpg will ALWAYS be the original post (for comparison purposes)
-def downloadImages(myURL, battleID, imageNum):
+def downloadImages(myURL, battleID):
 
     gotIt = False
+    imageNum = 1
+    downloadedImageName = 'img' + str(imageNum) + '.jpg'
 
     try:
         req = requests.get(myURL)
@@ -62,9 +65,6 @@ def downloadImages(myURL, battleID, imageNum):
         gotIt = False
 
     if(gotIt):
-
-        downloadedImageName = 'img' + str(imageNum) + '.jpg'
-
         os.chdir("..")
         os.chdir("app/static")
 
@@ -75,18 +75,29 @@ def downloadImages(myURL, battleID, imageNum):
             os.chdir(battleID)
         else:
             os.chdir(battleID)
+        
+        while os.path.isfile(downloadedImageName):
+            imageNum += 1
+            downloadedImageName = 'img' + str(imageNum) + '.jpg'
+
+            if(imageNum > 1000):
+                print("Overflowing past what is reasonable - something went wrong!")
+                break
 
         f = open(downloadedImageName, 'wb')
         f.write(req.content)
         f.close()
-
+        with open(downloadedImageName, 'r+b') as f:
+            with Image.open(f) as image:
+                square = resizeimage.resize_crop(image, [200,200])
+                square.save('img' + str(imageNum) + '.sqr.jpg', image.format)
         #resizeImage(downloadedImageName)
 
         os.chdir("..")
         os.chdir("..")
         
-    else:
-        print("Error getting the image")
+    #else:
+        #print("Error getting the image")
 
 
 # Resize Image - needs modification
@@ -110,25 +121,28 @@ def main():
     URL = []
     top_comments = []
     ID = []
+    ratio = []
 
-    URL, ID, top_comments = getLinks()
+    URL, ID, ratio, top_comments = getLinks()
+    print(ratio)
     arrayCount = -1
     for array in top_comments:
         arrayCount = arrayCount + 1
-        strCount = 0
-        downloadImages(URL[arrayCount], ID[arrayCount], strCount)
+        downloadImages(URL[arrayCount], ID[arrayCount])
         for str in array:
-            downloadImages(str, ID[arrayCount], strCount)
-            strCount = strCount + 1
+            downloadImages(str, ID[arrayCount])
 
-    #example:
-    downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
+    # example:
+    # downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
+
 
 def getLinks():
     URL = []
     top_comments = []
     ID = []
+    ratio = []
     for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
+        ratio.append(submission.upvote_ratio)
         ID.append(submission.id)
         URL.append(submission.url)
         submission.comments.replace_more(limit=0)
@@ -150,7 +164,7 @@ def getLinks():
                 str = str[start:end + 4]
                 top_comments[arrayCount][strCount] = str
             strCount += 1
-    return(URL, ID, top_comments)
+    return(URL, ID, ratio, top_comments)
 
 
 if __name__ == "__main__":
