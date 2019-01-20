@@ -16,6 +16,7 @@ import requests
 import requests.auth
 #import PythonMagick
 
+
 def authentication():
 
     client_auth = requests.auth.HTTPBasicAuth(config.CLIENT_ID, config.CLIENT_SECRET)
@@ -69,20 +70,28 @@ def downloadImages(myURL, battleID, imageNum):
 
         #NOT IMPLEMENTED:  if the folder doesn't already exist, create it. Otherwise 
         #currently do nothing but return a folder exists error?  dynamic so doesn't reload?
-        #if not os.path.exists(battleID):
-        os.mkdir(battleID)
-        os.chdir(battleID)
+        if not os.path.exists(battleID):
+            os.mkdir(battleID)
+            os.chdir(battleID)
+        else:
+            os.chdir(battleID)
+
         f = open(downloadedImageName, 'wb')
         f.write(req.content)
         f.close()
 
         resizeImage(downloadedImageName)
+
+        os.chdir("..")
         
     else:
         print("Error getting the image")
 
 
 # Resize Image - needs modification
+
+def resizeImage(imageName):
+    
  
 
 def main():
