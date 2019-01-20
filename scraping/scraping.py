@@ -8,9 +8,11 @@
 # Request a token:
 # Notice that for acquiring a token, requests are made to https://www.reddit.com
 
+
+# START AUTHENTICATION
+
 import requests
 import requests.auth
-import praw
 
 client_auth = requests.auth.HTTPBasicAuth('VDX4PVjK4BSxKA', 'q5OrTpB4fzg_sGrxccP2yIAho4Y')
 post_data = {"grant_type": "password", "username": "HackED-Photoshop-Bot", "password": "1234567890"}
@@ -39,3 +41,21 @@ response.json()
  u'link_karma': 1,
  u'name': u'HackED-Photoshop-Bot',
  u'over_18': True}
+
+# END AUTHENTICATION
+
+
+import praw
+
+
+myReddit = praw.Reddit(client_id = 'VDX4PVjK4BSxKA',
+    client_secret = 'q5OrTpB4fzg_sGrxccP2yIAho4Y',
+    user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
+
+print(myReddit.read_only)
+
+
+# WORKING!  Pulls the top hot titles from the learn python subreddit and prints
+# to the console
+for submission in myReddit.subreddit('learnpython').hot(limit=10):
+    print(submission.title)
