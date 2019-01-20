@@ -9,14 +9,12 @@ div.imagetiles div.col-lg-3.col-md-3.col-sm-3.col-xs-6{
 </style>
 
 <div class="container">
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
-    {% include '_image_tiles.html' %}
+    {% for post_row in posts|batch(4, '') %}
+        <div class="row imagetiles">
+            {% for post in post_row %}
+                {% include '_image_tile.html' %}
+            {% endfor %}
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}
