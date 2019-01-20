@@ -46,14 +46,16 @@ def authentication():
      u'over_18': True}
 
 
-# Takes a myURL string for use for downloading an image, battle number integer, and
+# Takes a myURL string for use for downloading an image, battle identifier string, and
 # image number for creation of the newly downloaded file
+def downloadImages(myURL, battleID, imageNum):
 
-#UNFINISHED AND BROKEN  - NEED UNIQUE ID'S INSTEAD OF BATTLENUM
-def downloadImages(myURL, battleNum, imageNum):
+    try:
+        req = requests.get(myURL)
+    except:
+        return "Error getting image!"
 
-    req = requests.get(myURL)
-    folderName = 'battle' + str(battleNum)
+    folderName = 'battle' + battleID
     downloadedImageName = 'image' + str(imageNum) + '.jpg'
     
     os.chdir("..")
@@ -71,9 +73,7 @@ def downloadImages(myURL, battleNum, imageNum):
 def main():
 
     authentication()
-    URL = []
-    top_comments = []
-    URL, top_comments = getlinks()
+
     global myReddit
     global PSbattles
 
@@ -82,8 +82,14 @@ def main():
         user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
     PSbattles = myReddit.subreddit('photoshopbattles')
 
+    URL = []
+    top_comments = []
+    URL, top_comments = getLinks()
 
-def getlinks():
+
+
+
+def getLinks():
     URL = []
     top_comments = []
     for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
