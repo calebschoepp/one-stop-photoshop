@@ -1,9 +1,9 @@
 # Code copied from the quick example guide:
-# Assuming:
-    # Your username is: reddit_bot
-    # Your password is: snoo
-    # Your app's client ID is: p-jcoLKBynTLew
-    # Your app's client secret is: gko_LXELoV07ZBNUXrvWZfzE3aI
+# Using our bot:
+    # Your username is: HackED-Photoshop-Bot
+    # Your password is: 1234567890
+    # Your app's client ID is: VDX4PVjK4BSxKA
+    # Your app's client secret is: q5OrTpB4fzg_sGrxccP2yIAho4Y
 
 # Request a token:
 # Notice that for acquiring a token, requests are made to https://www.reddit.com
