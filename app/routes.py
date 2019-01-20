@@ -13,12 +13,12 @@ def index():
 ################### FIX
 @app.route('/next')
 def next():
-    return render_template('index.html', title='One Stop Photoshop')
+    return render_template('post.html', title='One Stop Photoshop')
 
 @app.route('/prev')
 def prev():
-    return render_template('index.html', title='One Stop Photoshop')
+    return render_template('post.html', title='One Stop Photoshop')
 
 @app.route('/random')
 def random():
-    return render_template('index.html', title='One Stop Photoshop')
+    return render_template('post.html', title='One Stop Photoshop')
