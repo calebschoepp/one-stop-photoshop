@@ -80,7 +80,7 @@ def downloadImages(myURL, battleID, imageNum):
         f.write(req.content)
         f.close()
 
-        resizeImage(downloadedImageName)
+        #resizeImage(downloadedImageName)
 
         os.chdir("..")
         
@@ -90,7 +90,7 @@ def downloadImages(myURL, battleID, imageNum):
 
 # Resize Image - needs modification
 
-def resizeImage(imageName):
+#def resizeImage(imageName):
     
  
 
