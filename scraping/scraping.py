@@ -9,13 +9,16 @@
 # Notice that for acquiring a token, requests are made to https://www.reddit.com
 
 
+import config
+import praw
+
 # START AUTHENTICATION
 
 import requests
 import requests.auth
 
-client_auth = requests.auth.HTTPBasicAuth('VDX4PVjK4BSxKA', 'q5OrTpB4fzg_sGrxccP2yIAho4Y')
-post_data = {"grant_type": "password", "username": "HackED-Photoshop-Bot", "password": "1234567890"}
+client_auth = requests.auth.HTTPBasicAuth(config.CLIENT_ID, config.CLIENT_SECRET)
+post_data = {"grant_type": "password", "username": REDDIT_USERNAME, "password": REDDIT_PASSWORD}
 headers = {"User-Agent": "linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)"}
 response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data, headers=headers)
 response.json()
@@ -45,24 +48,29 @@ response.json()
 # END AUTHENTICATION
 
 
-import praw
+def main():
+
+    global myReddit
+    global PSbattles
+
+    myReddit = praw.Reddit(client_id = CLIENT_ID,
+        client_secret = CLIENT_SECRET,
+        user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
+    PSbattles = myReddit.subreddit('photoshopbattles')
+    i = 0
+    URL = []
+    for submission in PSbattles.top(limit = POSTS_TO_LOAD):
+        URL.append(submission.url)
+        top_comments = list(submission.comments)
+    for j in range(0, POSTS_TO_LOAD):
+        print(str(top_comments[j].body))
+        print(' ')
 
 
-myReddit = praw.Reddit(client_id = 'VDX4PVjK4BSxKA',
-    client_secret = 'q5OrTpB4fzg_sGrxccP2yIAho4Y',
-    user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
-PSbattles = myReddit.subreddit('photoshopbattles')
-i = 0
-URL = []
-for submission in PSbattles.top(limit = 10):
-    URL.append(submission.url)
-    top_comments = list(submission.comments)
-for j in range(0, 10):
-    print(str(top_comments[j].body))
-    print(' ')
 
 
-
+if __name__ == "__main__":
+    main()
 # WORKING!  Pulls the top hot titles from the learn python subreddit and prints
 # to the console
 #for submission in myReddit.subreddit('learnpython').hot(limit=10):
