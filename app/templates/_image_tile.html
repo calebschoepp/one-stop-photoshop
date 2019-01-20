@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="{{ url_for('post') }}">
-    <img src="{{url_for('static', filename='original.jpg')}}" class="img-responsive">
+    <a href="{{ url_for('{}'.format(post.folder)) }}">
+    <img src="{{ url_for('static', filename='{{ post.folder }}/img1.jpg') }}" class="img-responsive">
     </a>
 </div>
