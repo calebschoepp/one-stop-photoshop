@@ -64,7 +64,7 @@ def downloadImages(myURL, battleID):
     except:
         gotIt = False
 
-    if(gotIt):
+    if(gotIt == True):
 
         os.chdir("./static")
 
@@ -87,10 +87,10 @@ def downloadImages(myURL, battleID):
         f = open(downloadedImageName, 'wb')
         f.write(req.content)
         f.close()
-        with open(downloadedImageName, 'r+b') as f:
-            with Image.open(f) as image:
-                square = resizeimage.resize_thumbnail(image, [200,200])
-                square.save('img' + str(imageNum) + '.sqr.jpg', image.format)
+        # with open(downloadedImageName, 'r+b') as f:
+        #     with Image.open(f) as image:
+        #         square = resizeimage.resize_thumbnail(image, [200,200])
+        #         square.save('img' + str(imageNum) + '.sqr.jpg', image.format)
         #resizeImage(downloadedImageName)
 
         os.chdir("..")
@@ -124,7 +124,6 @@ def main():
     ratio = []
 
     URL, ID, ratio, top_comments = getLinks()
-    #print(ratio)
     arrayCount = -1
     for array in top_comments:
         arrayCount = arrayCount + 1
@@ -133,7 +132,8 @@ def main():
             downloadImages(str, ID[arrayCount])
 
     # example:
-    # downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
+    for i in range(100):
+        downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST')
 
 
 def getLinks():
