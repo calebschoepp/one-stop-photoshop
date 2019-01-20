@@ -10,10 +10,11 @@
 
 import requests
 import requests.auth
+import praw
 
 client_auth = requests.auth.HTTPBasicAuth('VDX4PVjK4BSxKA', 'q5OrTpB4fzg_sGrxccP2yIAho4Y')
 post_data = {"grant_type": "password", "username": "HackED-Photoshop-Bot", "password": "1234567890"}
-headers = {"User-Agent": "ChangeMeClient/0.1 by YourUsername"}
+headers = {"User-Agent": "linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)"}
 response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data, headers=headers)
 response.json()
 {u'access_token': u'fhTdafZI-0ClEzzYORfBSCR7x3M',
