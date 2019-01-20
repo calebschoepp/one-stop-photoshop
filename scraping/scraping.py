@@ -93,11 +93,19 @@ def main():
 
     URL = []
     top_comments = []
-    URL, top_comments = getLinks()
-
+    ID = []
+    URL, ID, top_comments = getLinks()
+    arrayCount = -1
+    for array in top_comments:
+        arrayCount = arrayCount + 1
+        strCount = 0
+        downloadImages(URL[arrayCount], ID[arrayCount], strCount)
+        for str in array:
+            downloadImages(str, ID[arrayCount], strCount)
+            strCount = strCount + 1
     #example:
-    downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
-
+    #downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
+    #print(yolo)
 
 def getLinks():
     URL = []
@@ -108,7 +116,10 @@ def getLinks():
         URL.append(submission.url)
         submission.comments.replace_more(limit=0)
         top_comments.append(list(submission.comments))
+    arrayCount = -1
     for array in top_comments:
+        arrayCount += 1
+        strCount = 0
         for str in array:
             str = str.body
             if "https://i.imgur" and ".jpg" not in str:
@@ -120,7 +131,9 @@ def getLinks():
                 start = str.find("https://i.imgur")
                 end = str.find(".jpg")
                 str = str[start:end + 4]
-    return(URL, top_comments)
+                top_comments[arrayCount][strCount] = str
+            strCount += 1
+    return(URL, ID, top_comments)
 
 
 if __name__ == "__main__":
