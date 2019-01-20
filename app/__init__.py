@@ -9,5 +9,6 @@ app.config.from_object(Config)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+images = Images(app)
 
 from app import routes, models
