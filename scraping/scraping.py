@@ -89,6 +89,10 @@ def downloadImages(myURL, battleID):
         f.close()
         with open(downloadedImageName, 'r+b') as f:
             with Image.open(f) as image:
+                square = resizeimage.resize_contain(image, [1200,800])
+                square.save(downloadedImageName, image.format)
+        with open(downloadedImageName, 'r+b') as f:
+            with Image.open(f) as image:
                 square = resizeimage.resize_thumbnail(image, [200,200])
                 square.save('img' + str(imageNum) + '.sqr.jpg', image.format)
         #resizeImage(downloadedImageName)
