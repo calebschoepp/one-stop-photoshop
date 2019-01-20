@@ -14,6 +14,8 @@ import os
 import praw
 import requests
 import requests.auth
+#import PythonMagick
+
 
 def authentication():
 
@@ -66,17 +68,30 @@ def downloadImages(myURL, battleID, imageNum):
         os.chdir("..")
         os.chdir("app/static")
 
-        #if the folder doesn't already exist, create it. Otherwise ?
+        #NOT IMPLEMENTED:  if the folder doesn't already exist, create it. Otherwise 
+        #currently do nothing but return a folder exists error?  dynamic so doesn't reload?
         if not os.path.exists(battleID):
             os.mkdir(battleID)
             os.chdir(battleID)
-            f = open(downloadedImageName, 'wb')
-            f.write(req.content)
-            f.close()
         else:
-            print("That folder already exists!")
+            os.chdir(battleID)
+
+        f = open(downloadedImageName, 'wb')
+        f.write(req.content)
+        f.close()
+
+        #resizeImage(downloadedImageName)
+
+        os.chdir("..")
+        
     else:
         print("Error getting the image")
+
+
+# Resize Image - needs modification
+
+#def resizeImage(imageName):
+    
  
 
 def main():
@@ -93,11 +108,20 @@ def main():
 
     URL = []
     top_comments = []
-    URL, top_comments = getLinks()
+    ID = []
+
+    URL, ID, top_comments = getLinks()
+    arrayCount = -1
+    for array in top_comments:
+        arrayCount = arrayCount + 1
+        strCount = 0
+        downloadImages(URL[arrayCount], ID[arrayCount], strCount)
+        for str in array:
+            downloadImages(str, ID[arrayCount], strCount)
+            strCount = strCount + 1
 
     #example:
     downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
-
 
 def getLinks():
     URL = []
@@ -108,7 +132,10 @@ def getLinks():
         URL.append(submission.url)
         submission.comments.replace_more(limit=0)
         top_comments.append(list(submission.comments))
+    arrayCount = -1
     for array in top_comments:
+        arrayCount += 1
+        strCount = 0
         for str in array:
             str = str.body
             if "https://i.imgur" and ".jpg" not in str:
@@ -120,7 +147,9 @@ def getLinks():
                 start = str.find("https://i.imgur")
                 end = str.find(".jpg")
                 str = str[start:end + 4]
-    return(URL, top_comments)
+                top_comments[arrayCount][strCount] = str
+            strCount += 1
+    return(URL, ID, top_comments)
 
 
 if __name__ == "__main__":
