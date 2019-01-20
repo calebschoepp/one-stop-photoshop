@@ -54,12 +54,24 @@ myReddit = praw.Reddit(client_id = 'VDX4PVjK4BSxKA',
 PSbattles = myReddit.subreddit('photoshopbattles')
 i = 0
 URL = []
+top_comments = []
 for submission in PSbattles.top(limit = 10):
     URL.append(submission.url)
-    top_comments = list(submission.comments)
-for j in range(0, 10):
-    print(str(top_comments[j].body))
-    print(' ')
+    submission.comments.replace_more(limit=0)
+    top_comments.append(list(submission.comments))
+for array in top_comments:
+    for str in array:
+        str = str.body
+        if "https://i.imgur" and ".jpg" not in str:
+            try:
+                array.remove(str)
+            except ValueError:
+                pass
+        else:
+            start = str.find("https://i.imgur")
+            end = str.find(".jpg")
+            str = str[start:end + 4]
+
 
 
 
