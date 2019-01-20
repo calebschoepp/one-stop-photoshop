@@ -9,17 +9,6 @@ def index():
     posts = Post.query.order_by(Post.folder).all() # Builds a list
     return render_template('index.html', posts=posts, title='One Stop Photoshop')
 
-
-
-################### FIX
-# @app.route('/next')
-# def next():
-#     return render_template('post.html', title='One Stop Photoshop')
-
-# @app.route('/prev')
-# def prev():
-#     return render_template('post.html', title='One Stop Photoshop')
-
 @app.route('/random')
 def random():
     rand = rr(0, Post.query.count())
