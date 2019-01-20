@@ -17,7 +17,7 @@ import requests.auth
 def authentication():
 
     client_auth = requests.auth.HTTPBasicAuth(config.CLIENT_ID, config.CLIENT_SECRET)
-    post_data = {"grant_type": "password", "username": REDDIT_USERNAME, "password": REDDIT_PASSWORD}
+    post_data = {"grant_type": "password", "username": config.REDDIT_USERNAME, "password": config.REDDIT_PASSWORD}
     headers = {"User-Agent": "linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)"}
     response = requests.post("https://www.reddit.com/api/v1/access_token", auth=client_auth, data=post_data, headers=headers)
     response.json()
@@ -52,16 +52,16 @@ def main():
     global myReddit
     global PSbattles
 
-    myReddit = praw.Reddit(client_id = CLIENT_ID,
-        client_secret = CLIENT_SECRET,
+    myReddit = praw.Reddit(client_id = config.CLIENT_ID,
+        client_secret = config.CLIENT_SECRET,
         user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
     PSbattles = myReddit.subreddit('photoshopbattles')
     i = 0
     URL = []
-    for submission in PSbattles.top(limit = POSTS_TO_LOAD):
+    for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
         URL.append(submission.url)
         top_comments = list(submission.comments)
-    for j in range(0, POSTS_TO_LOAD):
+    for j in range(0, config.POSTS_TO_LOAD):
         print(str(top_comments[j].body))
         print(' ')
 
