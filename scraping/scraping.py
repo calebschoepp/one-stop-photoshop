@@ -66,7 +66,8 @@ def downloadImages(myURL, battleID, imageNum):
         os.chdir("..")
         os.chdir("app/static")
 
-        #if the folder doesn't already exist, create it. Otherwise ?
+        #if the folder doesn't already exist, create it. Otherwise currently do nothing
+        # but return a folder exists error
         if not os.path.exists(battleID):
             os.mkdir(battleID)
             os.chdir(battleID)
@@ -77,6 +78,11 @@ def downloadImages(myURL, battleID, imageNum):
             print("That folder already exists!")
     else:
         print("Error getting the image")
+
+
+def resizeImage(imageName):
+    
+
  
 
 def main():
@@ -94,6 +100,7 @@ def main():
     URL = []
     top_comments = []
     URL, top_comments = getLinks()
+    print(URL)
 
     #example:
     downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
@@ -102,9 +109,7 @@ def main():
 def getLinks():
     URL = []
     top_comments = []
-    ID = []
     for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
-        ID.append(submission.id)
         URL.append(submission.url)
         submission.comments.replace_more(limit=0)
         top_comments.append(list(submission.comments))
