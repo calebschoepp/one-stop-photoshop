@@ -7,8 +7,6 @@ div.imagetiles div.col-lg-3.col-md-3.col-sm-3.col-xs-6{
   padding: 15px;
 }
 </style>
-
-<!--
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="item active">
@@ -31,36 +29,4 @@ div.imagetiles div.col-lg-3.col-md-3.col-sm-3.col-xs-6{
     </a>
   </div>
 <img class="d-block w-100" src="{{ url_for('images.crop', filename='test/img1.jpg', width=800, height=600, quality=95) }}" alt="Original">
--->
-
-<div class="container">
-    <div class="row imagetiles">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('original.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('test/img1.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('test/img2.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('img3.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-    </div>
-    <div class="row imagetiles">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('original.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('test/img1.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('test/img2.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <img src={{ resized_img_src('img3.jpg', width=800, height=600, mode='crop', quality=95) }} class="img-responsive">
-        </div>
-    </div>
-</div>
 {% endblock %}
