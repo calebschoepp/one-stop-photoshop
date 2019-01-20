@@ -22,3 +22,7 @@ def prev():
 @app.route('/random')
 def random():
     return render_template('post.html', title='One Stop Photoshop')
+
+@app.route('/post')
+def post():
+    return render_template('post.html', title='One Stop Photoshop')
