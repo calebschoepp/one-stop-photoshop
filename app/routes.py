@@ -6,4 +6,19 @@ from app import app, db
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    return render_template('index.html', title='One Stop Photoshop')
+
+
+
+################### FIX
+@app.route('/next')
+def next():
+    return render_template('index.html', title='One Stop Photoshop')
+
+@app.route('/prev')
+def prev():
+    return render_template('index.html', title='One Stop Photoshop')
+
+@app.route('/random')
+def random():
+    return render_template('index.html', title='One Stop Photoshop')
