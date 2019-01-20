@@ -51,11 +51,19 @@ import praw
 myReddit = praw.Reddit(client_id = 'VDX4PVjK4BSxKA',
     client_secret = 'q5OrTpB4fzg_sGrxccP2yIAho4Y',
     user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
+PSbattles = myReddit.subreddit('photoshopbattles')
+i = 0
+URL = []
+for submission in PSbattles.top(limit = 10):
+    URL.append(submission.url)
+    top_comments = list(submission.comments)
+for j in range(0, 10):
+    print(str(top_comments[j].body))
+    print(' ')
 
-print(myReddit.read_only)
 
 
 # WORKING!  Pulls the top hot titles from the learn python subreddit and prints
 # to the console
-for submission in myReddit.subreddit('learnpython').hot(limit=10):
-    print(submission.title)
+#for submission in myReddit.subreddit('learnpython').hot(limit=10):
+#   print(submission.title)
