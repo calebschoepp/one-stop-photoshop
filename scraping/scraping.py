@@ -10,6 +10,7 @@
 
 
 import config
+import os
 import praw
 import requests
 import requests.auth
@@ -45,6 +46,21 @@ def authentication():
      u'over_18': True}
 
 
+# Takes a myURL string for use for downloading an image, battle number integer, and
+# image number for creation of the newly downloaded file
+def downloadImages(myURL, battleNum, imageNum):
+
+    req = requests.get(myURL)
+    downloadedImageName = str(battleNum) + '.' + str(imageNum) + '.jpg'
+    
+    os.chdir("..")
+    os.chdir("app/static")
+
+    f = open(downloadedImageName, 'wb')
+    f.write(req.content)
+    f.close()
+ 
+
 def main():
 
     authentication()
@@ -56,20 +72,26 @@ def main():
         client_secret = config.CLIENT_SECRET,
         user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
     PSbattles = myReddit.subreddit('photoshopbattles')
-    i = 0
     URL = []
-    for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
-        URL.append(submission.url)
-        top_comments = list(submission.comments)
-    for j in range(0, config.POSTS_TO_LOAD):
-        print(str(top_comments[j].body))
-        print(' ')
+    
+    # for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
+    #     URL.append(submission.url)
+    #     top_comments = list(submission.comments)
+    # for j in range(0, config.POSTS_TO_LOAD):
+    #     print(str(top_comments[j].body))
+    #     print(' ')
+
+
+    # test:
+
+    downloadImages('https://i.imgur.com/rVbC2Di.jpg', 0, 0)
 
 
 
 
 if __name__ == "__main__":
     main()
+
 # WORKING!  Pulls the top hot titles from the learn python subreddit and prints
 # to the console
 #for submission in myReddit.subreddit('learnpython').hot(limit=10):
