@@ -14,7 +14,7 @@ import os
 import praw
 import requests
 import requests.auth
-import PythonMagick
+#import PythonMagick
 
 def authentication():
 
@@ -83,17 +83,6 @@ def downloadImages(myURL, battleID, imageNum):
 
 
 # Resize Image - needs modification
-def resizeImage(imageName):
-    
-    myPic = PythonMagick.Image(imageName)
-    dimensions = myPic.size()
-    width, height = dimensions.width(), dimensions.height()
-
-    newWidth = 800
-    newHeight = 800
-
-    myPic.resize(newWidth, newHeight)
-    myPic.write('resized.' + imageName)
  
 
 def main():
@@ -108,19 +97,19 @@ def main():
         user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
     PSbattles = myReddit.subreddit('photoshopbattles')
 
-    # URL = []
-    # top_comments = []
-    # ID = []
+    URL = []
+    top_comments = []
+    ID = []
 
-    # URL, ID, top_comments = getLinks()
-    # arrayCount = -1
-    # for array in top_comments:
-    #     arrayCount = arrayCount + 1
-    #     strCount = 0
-    #     downloadImages(URL[arrayCount], ID[arrayCount], strCount)
-    #     for str in array:
-    #         downloadImages(str, ID[arrayCount], strCount)
-            # strCount = strCount + 1
+    URL, ID, top_comments = getLinks()
+    arrayCount = -1
+    for array in top_comments:
+        arrayCount = arrayCount + 1
+        strCount = 0
+        downloadImages(URL[arrayCount], ID[arrayCount], strCount)
+        for str in array:
+            downloadImages(str, ID[arrayCount], strCount)
+            strCount = strCount + 1
 
     #example:
     downloadImages('https://i.imgur.com/rVbC2Di.jpg', 'TEST', 6)
