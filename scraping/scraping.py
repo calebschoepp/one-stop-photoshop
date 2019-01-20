@@ -46,14 +46,16 @@ def authentication():
      u'over_18': True}
 
 
-# Takes a myURL string for use for downloading an image, battle number integer, and
+# Takes a myURL string for use for downloading an image, battle identifier string, and
 # image number for creation of the newly downloaded file
+def downloadImages(myURL, battleID, imageNum):
 
-#UNFINISHED AND BROKEN  - NEED UNIQUE ID'S INSTEAD OF BATTLENUM
-def downloadImages(myURL, battleNum, imageNum):
+    try:
+        req = requests.get(myURL)
+    except:
+        return "Error getting image!"
 
-    req = requests.get(myURL)
-    folderName = 'battle' + str(battleNum)
+    folderName = 'battle' + battleID
     downloadedImageName = 'image' + str(imageNum) + '.jpg'
     
     os.chdir("..")
@@ -79,21 +81,34 @@ def main():
         client_secret = config.CLIENT_SECRET,
         user_agent = 'linux:HackED-One-Stop-Photoshop:v0.1 (by u/HackED-Photoshop-Bot)')
     PSbattles = myReddit.subreddit('photoshopbattles')
+
     URL = []
-    
-    # for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
-    #     URL.append(submission.url)
-    #     top_comments = list(submission.comments)
-    # for j in range(0, config.POSTS_TO_LOAD):
-    #     print(str(top_comments[j].body))
-    #     print(' ')
+    top_comments = []
+    URL, top_comments = getLinks()
 
 
-    # test:
-
-    downloadImages('https://i.imgur.com/rVbC2Di.jpg', 0, 0)
 
 
+def getLinks():
+    URL = []
+    top_comments = []
+    for submission in PSbattles.top(limit = config.POSTS_TO_LOAD):
+        URL.append(submission.url)
+        submission.comments.replace_more(limit=0)
+        top_comments.append(list(submission.comments))
+    for array in top_comments:
+        for str in array:
+            str = str.body
+            if "https://i.imgur" and ".jpg" not in str:
+                try:
+                    array.remove(str)
+                except ValueError:
+                    pass
+            else:
+                start = str.find("https://i.imgur")
+                end = str.find(".jpg")
+                str = str[start:end + 4]
+    return(URL, top_comments)
 
 
 if __name__ == "__main__":
