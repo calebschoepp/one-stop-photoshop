@@ -64,7 +64,7 @@ def downloadImages(myURL, battleID, imageNum):
     if(gotIt):
 
         downloadedImageName = 'img' + str(imageNum) + '.jpg'
-        
+
         os.chdir("..")
         os.chdir("app/static")
 
@@ -82,6 +82,7 @@ def downloadImages(myURL, battleID, imageNum):
 
         #resizeImage(downloadedImageName)
 
+        os.chdir("..")
         os.chdir("..")
         
     else:
