@@ -89,7 +89,7 @@ def downloadImages(myURL, battleID):
         f.close()
         with open(downloadedImageName, 'r+b') as f:
             with Image.open(f) as image:
-                square = resizeimage.resize_crop(image, [200,200])
+                square = resizeimage.resize_thumbnail(image, [200,200])
                 square.save('img' + str(imageNum) + '.sqr.jpg', image.format)
         #resizeImage(downloadedImageName)
 
@@ -124,7 +124,7 @@ def main():
     ratio = []
 
     URL, ID, ratio, top_comments = getLinks()
-    print(ratio)
+    #print(ratio)
     arrayCount = -1
     for array in top_comments:
         arrayCount = arrayCount + 1
